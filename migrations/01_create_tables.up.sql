@@ -9,11 +9,3 @@ CREATE ROLE postgres SUPERUSER ;
 END IF;
 END
 $do$;
-
-create table if not exists books (
-    id uuid primary key not null,
-    name varchar not null,
-    number_of_pages int,
-    created_at timestamp default current_timestamp not null,
-    updated_at timestamp default current_timestamp not null
-);

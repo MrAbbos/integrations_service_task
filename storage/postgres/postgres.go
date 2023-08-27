@@ -12,7 +12,7 @@ import (
 
 type Store struct {
 	db   *pgxpool.Pool
-	book storage.BookRepoI
+	integrations storage.IntegrationsRepoI
 }
 
 func NewPostgres(ctx context.Context, cfg config.Config) (storage.StorageI, error) {
@@ -58,10 +58,10 @@ func (l *Store) Log(ctx context.Context, msg string, data map[string]interface{}
 	log.Println(args...)
 }
 
-func (s *Store) Book() storage.BookRepoI {
-	if s.book == nil {
-		s.book = NewBookRepo(s.db)
+func (s *Store) Integrations() storage.IntegrationsRepoI {
+	if s.integrations == nil {
+		s.integrations = NewIntegrationsRepo(s.db)
 	}
 
-	return s.book
+	return s.integrations
 }

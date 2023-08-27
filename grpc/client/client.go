@@ -2,21 +2,21 @@ package client
 
 import (
 	"integrations_service/config"
-	"integrations_service/genproto/book_service"
+	"integrations_service/genproto/integrations_service"
 
 	"google.golang.org/grpc"
 )
 
 type ServiceManagerI interface {
-	BookService() book_service.BookServiceClient
+	IntegrationsService() integrations_service.IntegrationsServiceClient
 }
 
 type grpcClients struct {
-	bookService book_service.BookServiceClient
+	integrationsService integrations_service.IntegrationsServiceClient
 }
 
 func NewGrpcClients(cfg config.Config) (ServiceManagerI, error) {
-	connBookService, err := grpc.Dial(
+	connIntegrationsService, err := grpc.Dial(
 		cfg.ServiceHost+cfg.ServicePort,
 		grpc.WithInsecure(),
 	)
@@ -25,10 +25,10 @@ func NewGrpcClients(cfg config.Config) (ServiceManagerI, error) {
 	}
 
 	return &grpcClients{
-		bookService: book_service.NewBookServiceClient(connBookService),
+		integrationsService: integrations_service.NewIntegrationsServiceClient(connIntegrationsService),
 	}, nil
 }
 
-func (g *grpcClients) BookService() book_service.BookServiceClient {
-	return g.bookService
+func (g *grpcClients) IntegrationsService() integrations_service.IntegrationsServiceClient {
+	return g.integrationsService
 }
